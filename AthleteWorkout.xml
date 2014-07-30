@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AtheleteWorkout>
+    <Workout>
+        <Type>AthleteCardio</Type>
+        <Duration>30mins</Duration>
+        <Machine>TreadMill</Machine>
+        <Fee>30$</Fee>
+    </Workout>
+    <Workout>
+        <Type>AthleteMuscular</Type>
+        <Duration>30mins</Duration>
+        <Machine>Stepper</Machine>
+        <Fee>40$</Fee>
+    </Workout>
+</AtheleteWorkout>

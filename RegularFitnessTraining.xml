@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AtheleteTraining>
+    <FitnessTraining>
+        <TrainingName>RegularFitnessPlan1</TrainingName>
+        <Schedule>7:00am </Schedule>
+        <Fee>20$ </Fee>
+    </FitnessTraining>
+    
+    <FitnessTraining>
+        <TrainingName>RegularFitnessPlan2</TrainingName>
+        <Schedule>7:00am </Schedule>
+        <Fee>20$ </Fee>
+    </FitnessTraining>
+</AtheleteTraining>
