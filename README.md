@@ -18,3 +18,4 @@ Running the Web-App
 
    mvn jetty:run
    
+3. In a web browser, type the following url - http://localhost:8080.
