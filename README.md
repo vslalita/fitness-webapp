@@ -12,7 +12,7 @@ Pre-requisites
 Running the Web-App
 -------------------------
 1. Navigate to the project location. From the terminal(Linux or Mac) or command Prompt in Windows, type the following command
-   cd <Project Location>
+   cd \<Project Location\>
    
 2. Run the following command 
 

@@ -1,0 +1,39 @@
+package com.sociallibrary.db;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+//TODO May be change this to DBHelper. Naming this with operations is confusing
+public class DBHelper {
+
+	public static int getCount(ResultSet queryResult){
+		int count=0;
+		try {
+			while(queryResult.next()){
+				count=count+1;
+			}
+			return count;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public static ResultSet getQueryResult(String sql){
+		try {
+			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+			ResultSet result=st.executeQuery(sql);
+			if(DBHelper.getCount(result)>0){
+				result.beforeFirst();
+				return result;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+}

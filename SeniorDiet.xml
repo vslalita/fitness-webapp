@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<AtheleteDiet>
-    <Diet>
-        <Calories>100</Calories>
-        <MealPlan>SeniorHealthMealPlan</MealPlan>
-        <Recommendation>Fruits</Recommendation>
-        <Fee>30$</Fee>
-    </Diet>
-</AtheleteDiet>
