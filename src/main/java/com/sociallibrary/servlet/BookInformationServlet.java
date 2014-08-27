@@ -42,7 +42,7 @@ public class BookInformationServlet extends HttpServlet {
         if(request.getParameter("operation")!=null&&(request.getParameter("operation").equals("setBorrower"))){
         	BookServiceController.bookServicecontroller.updateBook("borrower", memberbookId);
 		}
-        
+        //TODO Why cant BookServiceController be used to fetch this information
         BookInformation bookInfo=new BookInformation(memberbookId);
 		request.setAttribute("book", bookInfo.getBook());
 		request.setAttribute("owner", bookInfo.getBookOwner());

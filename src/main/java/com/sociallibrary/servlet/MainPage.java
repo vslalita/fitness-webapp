@@ -41,7 +41,7 @@ public class MainPage extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		//TODO Take this out if not required.
 		GenericController.getInstance();
 		response.setContentType("HTML");
 

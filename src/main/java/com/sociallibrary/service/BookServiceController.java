@@ -21,6 +21,7 @@ public class BookServiceController {
 	}
 
 	public void addBook(Book book){
+		//TODO - Do we need to create a new instance of facade each time. How about make it a private variable and initialise it once in the constructor.
 		OperationsFacade of=new OperationsFacade();
 		of.operations("Add", null, book);
 		of.executeRequests();

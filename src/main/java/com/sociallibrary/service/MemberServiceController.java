@@ -50,6 +50,7 @@ public class MemberServiceController {
 	public int validate(String username,String password){
 		Statement st;
 		try {
+			//TODO change to use DBHelper to execute query
 			st = DatabaseConnection.databaseInstance.conn.createStatement();
 			ResultSet validateUserQry=st.executeQuery("select *"
 					+ " from members"
