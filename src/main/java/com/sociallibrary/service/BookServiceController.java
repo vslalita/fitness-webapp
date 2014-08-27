@@ -16,6 +16,7 @@ import com.sociallibrary.service.factory.GetBooksFactory;
 import com.sociallibrary.service.operations.OperationsFacade;
 
 public class BookServiceController {
+	//TODO make it private 
 	static BookServiceController bookServicecontroller=null;
 	private BookServiceController(){
 	}
