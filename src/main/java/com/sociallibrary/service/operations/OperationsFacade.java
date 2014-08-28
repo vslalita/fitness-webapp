@@ -9,7 +9,6 @@ import com.sociallibrary.service.BookServiceController;
 public class OperationsFacade {
 
 	public void operations(String operation,Integer parameter,Book book){
-		//TODO - How can you assume that if operation == "Add" it always means addBook. Where are you adding members
         if(operation.equals("Add")){
         	OperationRequestor.addBooks.add(book);
         }
@@ -40,7 +39,7 @@ public class OperationsFacade {
 		ArrayList<String> returnBooks=new ArrayList<String>();
 		for(int i=0;i<book.size();i++){
 			int id=book.get(i);
-			ResultSet books=BookServiceController.bookServicecontroller.getBookbyId(id);
+			ResultSet books=BookServiceController.getInstance().getBookbyId(id);
 			//String category=bo.getCategory(id);
 			try {
 				books.first();

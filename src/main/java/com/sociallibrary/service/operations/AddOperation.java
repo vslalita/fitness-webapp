@@ -5,14 +5,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.db.DBHelper;
+import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.domain.Book;
 import com.sociallibrary.domain.CurrentMember;
 import com.sociallibrary.domain.Member;
- 
+
 public class AddOperation implements BookOperationRequest {
-	//TODO Make book private
 	Book book;
 	private ArrayList<Member> members=new ArrayList<Member>();
 
@@ -25,16 +24,11 @@ public class AddOperation implements BookOperationRequest {
 		bo.addBook(book);
 		updateRating();
 		try {
-			//TODO Change this call to be DatabaseConnection.getConnection().createStatement
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
-			//TODO Change the variable name to be something more meaningful. e.g. groupQuery
-			
-			//TODO This logic can be done in GroupServiceController right? in GroupServiceController you can have a method :getGroupsByMemberId(memberId). That way you dont have to write logic here
-
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Select * from groups g, membergroups mg, members m "
 					+ "where g.id=mg.group_id "
 					+ "and mg.member_id=m.id "
-					+ "and mg.member_id="+com.sociallibrary.domain.current_member.id;
+					+ "and mg.member_id="+CurrentMember.getMember().getId();
 			ResultSet member=st.executeQuery(sql);
 			if(DBHelper.getCount(member)>0){
 				member.beforeFirst();
@@ -44,7 +38,6 @@ public class AddOperation implements BookOperationRequest {
 					members.add(m);
 				}
 			}
-			//TODO - change to this.notifyAllMembers()
 			notifyAllMembers();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,7 +53,7 @@ public class AddOperation implements BookOperationRequest {
 		int count=0;
 		Statement st;
 		try {
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			ResultSet ratingList=st.executeQuery(sql);
 			while(ratingList.next()){
 				count=count+1;
@@ -77,7 +70,7 @@ public class AddOperation implements BookOperationRequest {
   
 	public void notifyAllMembers(){
 		for(int i=0;i<members.size();i++){
-			members.get(i).notifyNotification(book.getBookName());//(book.bookName);
+			members.get(i).notify(book.getBookName());//(book.bookName);
 		}
 	}
 

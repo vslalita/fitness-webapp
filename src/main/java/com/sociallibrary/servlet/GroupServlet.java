@@ -31,14 +31,14 @@ public class GroupServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		int id=com.sociallibrary.domain.current_member.id;
-		ResultSet groupInfo=MemberServiceController.memberServicecontroller.getGroupInformation(id);
+		int id=CurrentMember.getMember().getId();
+		ResultSet groupInfo=MemberServiceController.getInstance().getGroupInformation(id);
 		
 		request.setAttribute("groupinfo", groupInfo);
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
-		request.setAttribute("member", com.sociallibrary.domain.cm.current_member);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("member", CurrentMember.getMember());
 		
 		getServletContext().getRequestDispatcher("/groups.jsp").forward(request, response);
 		

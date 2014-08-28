@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-//TODO May be change this to DBHelper. Naming this with operations is confusing
 public class DBHelper {
 
 	public static int getCount(ResultSet queryResult){
@@ -23,7 +22,7 @@ public class DBHelper {
 	
 	public static ResultSet getQueryResult(String sql){
 		try {
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			ResultSet result=st.executeQuery(sql);
 			if(DBHelper.getCount(result)>0){
 				result.beforeFirst();

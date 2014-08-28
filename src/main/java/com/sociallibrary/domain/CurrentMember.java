@@ -1,12 +1,12 @@
 package com.sociallibrary.domain;
 
-//TODO Rename this to SessionDetails
+
 public class CurrentMember {
 
-	 final  Member current_member;
-	 static CurrentMember cm=null;
+	 private static  Member current_member;
+	 private static CurrentMember cm=null;
 	 private CurrentMember(Member member){
-		 this.current_member=member;
+		 CurrentMember.current_member=member;
 	 }
 	
 	 public static CurrentMember getMemberInstance(Member member){
@@ -17,6 +17,14 @@ public class CurrentMember {
 		 else{
 			 return cm;
 		 }
+	 }
+	 
+	 public static Member getMember(){
+		 if(cm!=null){
+			 return current_member;
+		 }
+		 else return null;
+		
 	 }
 	
 }

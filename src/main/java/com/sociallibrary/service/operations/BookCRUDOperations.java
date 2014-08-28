@@ -5,8 +5,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 
-import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.db.DBHelper;
+import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.domain.Book;
 import com.sociallibrary.domain.CurrentMember;
 
@@ -15,7 +15,7 @@ public class BookCRUDOperations {
     // Method to add create new Books for a group. If a book already exists a record is created only in 'memberbooks' table.
 	public void addBook(Book book){
 		try {
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			ResultSet bookExistingQuery=st.executeQuery("Select * "
 					+ "from books "
 					+ "where bookname='"+book.getBookName()+"'");
@@ -34,11 +34,11 @@ public class BookCRUDOperations {
 				ResultSet checkExistingBook=st.executeQuery("Select * "
 						                                 + "from memberbooks "
 						                                 + "where book_id="+newBookId.getInt("id")+" "
-						                                  + "and owner_id="+CurrentMember.cm.current_member.id);
+						                                  + "and owner_id="+CurrentMember.getMember().getId());
 				if(DBHelper.getCount(checkExistingBook)==0){
 					st.executeUpdate("insert into "
 							+ "memberbooks (book_id, owner_id,borrower_id, memberrating, last_updated_at ) "
-							+ "values ('"+newBookId.getInt("id")+"',"+CurrentMember.cm.current_member.id+",null,"+book.getBookRating()+",'"+currentDate+"')");
+							+ "values ('"+newBookId.getInt("id")+"',"+CurrentMember.getMember().getId()+",null,"+book.getBookRating()+",'"+currentDate+"')");
 				}
 			}
 			else{
@@ -49,7 +49,7 @@ public class BookCRUDOperations {
 					ResultSet newBookId=st.executeQuery("Select * from books where ISBN='"+book.getBookISBN()+"'");
 					newBookId.next();
 					st.executeUpdate("insert into memberbooks (book_id, owner_id,borrower_id, memberrating, last_updated_at ) "
-							+ "values ('"+newBookId.getInt("id")+"',"+CurrentMember.cm.current_member.id+","+CurrentMember.cm.current_member.id+","+book.getBookRating()+",'"+currentDate+"')");
+							+ "values ('"+newBookId.getInt("id")+"',"+CurrentMember.getMember().getId()+","+CurrentMember.getMember().getId()+","+book.getBookRating()+",'"+currentDate+"')");
 				}
 			}
 		} catch (SQLException e) {
@@ -61,7 +61,7 @@ public class BookCRUDOperations {
 	// Creates a category if it does not exist already
 	public int addCategory(String categoryName){
 		try {
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Select * "
 					+ "from bookcategories "
 					+ "where categoryname='"+categoryName+"'";
@@ -89,10 +89,10 @@ public class BookCRUDOperations {
 	public boolean deleteBook(Book book){
 		Statement st;
 		try {
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Delete from memberbooks "
 					 + "where book_id in (Select id from books where ISBN="+book.getBookISBN()+" "
-					 		+ "and owner_id="+CurrentMember.cm.current_member.id+")";
+					 		+ "and owner_id="+CurrentMember.getMember().getId()+")";
 			st.executeUpdate(sql);
 			return true;
 		} catch (SQLException e) {
@@ -104,7 +104,7 @@ public class BookCRUDOperations {
 	public void deleteBook(int memberBookid){
 		Statement st;
 		try {
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Delete from memberbooks "
 					 + "where id="+memberBookid;
 			st.executeUpdate(sql);
@@ -116,12 +116,12 @@ public class BookCRUDOperations {
 	public boolean requestBook(int memberBookId){
 		Statement st;
 		try {
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Select * from memberbooks where id="+memberBookId;
 			
 			ResultSet bookInfo=st.executeQuery(sql);
 			bookInfo.first();
-			int id=CurrentMember.cm.current_member.id;
+			int id=CurrentMember.getMember().getId();
 			if(((bookInfo.getInt("borrower_id")==id))){
 				return false;
 			}

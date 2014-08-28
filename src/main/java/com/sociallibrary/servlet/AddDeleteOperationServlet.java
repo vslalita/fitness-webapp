@@ -47,10 +47,11 @@ public class AddDeleteOperationServlet extends HttpServlet {
 		requestedBooks=of.displayRequestedBooks().toArray(requestedBooks);
 		
 		request.setAttribute("deletedBooks", deletedBooks);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
 		request.setAttribute("requestedBooks", requestedBooks);
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
+		
 		getServletContext().getRequestDispatcher("/add_delete.jsp").forward(request, response);
 	}
 
@@ -66,11 +67,11 @@ public class AddDeleteOperationServlet extends HttpServlet {
 		int rating=Integer.valueOf(request.getParameter("rating"));
 		
 		Book newBook=new Book(name,category,rating,isbn);
-		BookServiceController.bookServicecontroller.addBook(newBook);
+		BookServiceController.getInstance().addBook(newBook);
 		
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
 		getServletContext().getRequestDispatcher("/add_delete.jsp").forward(request, response);
 	}
 

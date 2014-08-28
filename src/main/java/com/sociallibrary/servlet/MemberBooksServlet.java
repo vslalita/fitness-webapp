@@ -35,16 +35,16 @@ public class MemberBooksServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.setContentType("HTML");
 		if((request.getParameter("operation")!=null)&&(request.getParameter("operation").equals("Request"))){
-			BookServiceController.bookServicecontroller.requestBook(Integer.valueOf(request.getParameter("id")));
+			BookServiceController.getInstance().requestBook(Integer.valueOf(request.getParameter("id")));
 		}
 		
-		ResultSet myGroups=MemberServiceController.memberServicecontroller.getgroups(com.sociallibrary.domain.current_member.id);
+		ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
 
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
-		request.setAttribute("member", com.sociallibrary.domain.cm.current_member);
-		request.setAttribute("groupbooks", BookServiceController.bookServicecontroller.getBooks("GroupBooks",com.sociallibrary.domain.current_member.id));
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("member", CurrentMember.getMember());
+		request.setAttribute("groupbooks", BookServiceController.getInstance().getBooks("GroupBooks",CurrentMember.getMember().getId()));
 		request.setAttribute("groups", myGroups);
 
 		getServletContext().getRequestDispatcher("/books.jsp").forward(request, response);
@@ -56,16 +56,16 @@ public class MemberBooksServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		ResultSet myGroups=MemberServiceController.memberServicecontroller.getgroups(com.sociallibrary.domain.current_member.id);
+		ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
 		String groupName=request.getParameter("groupname").toString();
-		ResultSet groupBooks=BookServiceController.bookServicecontroller.getBooksbyGroup(groupName);
+		ResultSet groupBooks=BookServiceController.getInstance().getBooksbyGroup(groupName);
 
 		request.setAttribute("groups", myGroups);
 		request.setAttribute("groupbooks", groupBooks);
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
-		request.setAttribute("member", com.sociallibrary.domain.cm.current_member);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("member", CurrentMember.getMember());
 
 		getServletContext().getRequestDispatcher("/books.jsp").forward(request, response);
 	}

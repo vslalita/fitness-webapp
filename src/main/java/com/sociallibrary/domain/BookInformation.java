@@ -13,10 +13,10 @@ public class BookInformation {
   private ResultSet bookBorrower;
   
   public BookInformation(int id){
-	  this.setBookbyId(id);
-	  this.setBookOwner();
-	  this.setBookBorrower();
-	  this.setBookRequestors(id);
+	  setBookbyId(id);
+	  setBookOwner();
+	  setBookBorrower();
+	  setBookRequestors(id);
   }
   
   public ResultSet getBookOwner(){
@@ -46,10 +46,9 @@ public class BookInformation {
   public void setBookOwner(){
 	  try {
 		book.first();
-		ResultSet Owner=MemberServiceController.memberServicecontroller.getMemberInfo(book.getInt("owner_id"));
+		ResultSet Owner=MemberServiceController.getInstance().getMemberInfo(book.getInt("owner_id"));
 		this.bookOwner=Owner;
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
   }
@@ -57,10 +56,9 @@ public class BookInformation {
   public void setBookBorrower(){
 	  try {
 		book.first();
-		ResultSet borrower=MemberServiceController.memberServicecontroller.getMemberInfo(book.getInt("borrower_id"));
+		ResultSet borrower=MemberServiceController.getInstance().getMemberInfo(book.getInt("borrower_id"));
         this.bookBorrower=borrower;
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
   }

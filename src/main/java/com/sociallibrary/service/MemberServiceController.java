@@ -4,14 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.db.DBHelper;
+import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.domain.CurrentMember;
 import com.sociallibrary.domain.Member;
 
 public class MemberServiceController {
-	//Devi - Make this private and if you need to access memberServicecontroller then you can call getInstance
-	static MemberServiceController memberServicecontroller=null;
+	private static MemberServiceController memberServicecontroller=null;
 	private MemberServiceController(){
 	}
 
@@ -26,14 +25,12 @@ public class MemberServiceController {
 	 
 	public boolean register(Member member){
 		try {
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
-			//TODO - Change validate to this.validate
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			int validationValue=validate(member.getUsername(),member.getPassword());
 			if(validationValue>0){
 				return false;
 			}
 			else{
-				//TODO - Does it matter to have insert instead of Insert.
 				st.executeUpdate("Insert into members (firstname,lastname,username,password,address,email) "
 						+ "values('"+member.getFirstName()+"',"+"'"+member.getLastName()+"','"+member.getUsername()+"','"+member.getPassword()+"','"+member.getAddress()+"','"+member.getEmail()+"')");
 				return true;
@@ -50,8 +47,7 @@ public class MemberServiceController {
 	public int validate(String username,String password){
 		Statement st;
 		try {
-			//TODO change to use DBHelper to execute query
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			ResultSet validateUserQry=st.executeQuery("select *"
 					+ " from members"
 					+ " where username='"+username+"'"
@@ -76,7 +72,7 @@ public class MemberServiceController {
 		int validationValue=validate(username,password);
 		if(validationValue>0){
 			try {
-				st = DatabaseConnection.databaseInstance.conn.createStatement();
+				st = DatabaseConnection.connectionRequest().createStatement();
 				ResultSet validateUserQry=st.executeQuery("select *"
 						+ " from members"
 						+ " where id="+validationValue);
@@ -88,7 +84,7 @@ public class MemberServiceController {
 							validateUserQry.getString("password"),
 							validateUserQry.getString("address"),
 							validateUserQry.getString("email"));
-					current_member.id=validateUserQry.getInt("id");
+					current_member.setId(validateUserQry.getInt("id"));
 					CurrentMember.getMemberInstance(current_member);
 					return true;
 				}
@@ -112,12 +108,12 @@ public class MemberServiceController {
 
 	public void createGroup(String groupname){
 		try {
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			ResultSet validateGroup=st.executeQuery("Select * from groups where groupname='"+groupname+"'");
 			if(DBHelper.getCount(validateGroup)==0){
 				String sql="Insert into groups(groupname) values ('"+groupname+"')";
 				st.executeUpdate(sql);
-				joinGroup(groupname,com.sociallibrary.domain.current_member.id);
+				joinGroup(groupname,CurrentMember.getMember().getId());
 			}	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -134,7 +130,7 @@ public class MemberServiceController {
 
 	public void joinGroup(String groupname,int id){
 		try {
-			Statement st=DatabaseConnection.databaseInstance.conn.createStatement();
+			Statement st=DatabaseConnection.connectionRequest().createStatement();
 			String sql="select * "
 					+ "from membergroups mg,groups g "
 					+ "where g.id=mg.group_id "
@@ -158,7 +154,7 @@ public class MemberServiceController {
 	
 	public ResultSet getMemberInfo(int id){
 		try {
-			Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+			Statement st = DatabaseConnection.connectionRequest().createStatement();
 			ResultSet member=st.executeQuery("Select * "
                     + "from members "
                     + "where id="+id);

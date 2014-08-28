@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.db.DBHelper;
+import com.sociallibrary.db.DatabaseConnection;
 
 public class UpdateBookBorrower extends UpdateBookInfo{
 
@@ -14,7 +14,7 @@ public class UpdateBookBorrower extends UpdateBookInfo{
 		ResultSet bookInfo=getBookInfo();
 		if(bookInfo!=null){
 			try {
-				Statement st = DatabaseConnection.databaseInstance.conn.createStatement();
+				Statement st = DatabaseConnection.connectionRequest().createStatement();
 				String sql="Select * "
 						+ "from bookrequest "
 						+ "where member_book_id="+getId();

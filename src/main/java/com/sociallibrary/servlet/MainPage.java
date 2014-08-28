@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.sociallibrary.domain.CurrentMember;
 import com.sociallibrary.service.BookServiceController;
-import com.sociallibrary.service.GenericController;
 import com.sociallibrary.service.MemberServiceController;
 
 /**
@@ -41,22 +40,18 @@ public class MainPage extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//TODO Take this out if not required.
-		GenericController.getInstance();
-		response.setContentType("HTML");
-
 		
-		if(MemberServiceController.memberServicecontroller.login(request.getParameter("username"),request.getParameter("password"))){
-			request.setAttribute("name",CurrentMember.cm.current_member.firstName+" "+CurrentMember.cm.current_member.lastName);
-			request.setAttribute("address",CurrentMember.cm.current_member.address);
-			request.setAttribute("email",CurrentMember.cm.current_member.Email);
-			request.setAttribute("member", CurrentMember.cm.current_member);
+		if(MemberServiceController.getInstance().login(request.getParameter("username"),request.getParameter("password"))){
+			request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+			request.setAttribute("address",CurrentMember.getMember().getAddress());
+			request.setAttribute("email",CurrentMember.getMember().getEmail());
+			request.setAttribute("member", CurrentMember.getMember());
 			
-			int id=CurrentMember.cm.current_member.id;
-			ResultSet myBooks=BookServiceController.bookServicecontroller.getBooks("OwnedBooks",id);
-			ResultSet myBorrowedBooks=BookServiceController.bookServicecontroller.getBooks("BorrowedBooks",id);
-			ResultSet myRequestedBooks=BookServiceController.bookServicecontroller.getBooks("RequestedBooks",id);
-			ResultSet myGroups=MemberServiceController.memberServicecontroller.getgroups(CurrentMember.cm.current_member.id);
+			int id=CurrentMember.getMember().getId();
+			ResultSet myBooks=BookServiceController.getInstance().getBooks("OwnedBooks",id);
+			ResultSet myBorrowedBooks=BookServiceController.getInstance().getBooks("BorrowedBooks",id);
+			ResultSet myRequestedBooks=BookServiceController.getInstance().getBooks("RequestedBooks",id);
+			ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
 			
 			
             request.setAttribute("ownedbooks", myBooks);

@@ -1,6 +1,7 @@
 package com.sociallibrary.servlet;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +39,7 @@ public class RegisterServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Member user=new Member(request.getParameter("firstname"),request.getParameter("lastname"),request.getParameter("address"),request.getParameter("email"),request.getParameter("username"),request.getParameter("password"));
-		if(MemberServiceController.memberServicecontroller.register(user)){
+		if(MemberServiceController.getInstance().register(user)){
 			getServletContext().getRequestDispatcher("/main.jsp").forward(request,response);
 		};
 		

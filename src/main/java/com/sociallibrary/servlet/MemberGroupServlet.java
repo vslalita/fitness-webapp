@@ -35,12 +35,12 @@ public class MemberGroupServlet extends HttpServlet {
 //		MemberOperations mo1=new MemberOperations();
 //		BookCRUDOperations bo1=new BookCRUDOperations();
 //		//ResultSet myBooks=bo1.getMyBooks();
-		ResultSet myGroups=MemberServiceController.memberServicecontroller.getgroups(com.sociallibrary.domain.current_member.id);
+		ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
 
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
-		request.setAttribute("member", com.sociallibrary.domain.cm.current_member);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("member", CurrentMember.getMember());
 		request.setAttribute("groups", myGroups);
 		getServletContext().getRequestDispatcher("/groups.jsp").forward(request, response);
 	}

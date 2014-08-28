@@ -23,7 +23,7 @@ public class DeleteOperation implements BookOperationRequest {
 		String sql ="Delete from bookrequest where member_book_id="+id;
 		Statement st;
 		try {
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			st.executeUpdate(sql);
 			
 		} catch (SQLException e) {

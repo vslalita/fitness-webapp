@@ -35,20 +35,20 @@ public class HomeServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//request.setAttribute("name", CurrentMember.cm.current_member.firstName+" "+CurrentMember.cm.current_member.lastName);
 		if(request.getParameter("operation")!=null&&request.getParameter("operation").equals("Delete")){
-			BookServiceController.bookServicecontroller.deleteBook(Integer.valueOf(request.getParameter("id")));
+			BookServiceController.getInstance().deleteBook(Integer.valueOf(request.getParameter("id")));
 		}
 		
-		int id=com.sociallibrary.domain.current_member.id;
-		ResultSet myBooks=BookServiceController.bookServicecontroller.getBooks("OwnedBooks",id);
-		ResultSet myBorrowedBooks=BookServiceController.bookServicecontroller.getBooks("BorrowedBooks",id);
-		ResultSet myRequestedBooks=BookServiceController.bookServicecontroller.getBooks("RequestedBooks",id);
-		ResultSet myGroups=MemberServiceController.memberServicecontroller.getgroups(com.sociallibrary.domain.current_member.id);
+		int id=CurrentMember.getMember().getId();
+		ResultSet myBooks=BookServiceController.getInstance().getBooks("OwnedBooks",id);
+		ResultSet myBorrowedBooks=BookServiceController.getInstance().getBooks("BorrowedBooks",id);
+		ResultSet myRequestedBooks=BookServiceController.getInstance().getBooks("RequestedBooks",id);
+		ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
 		
 		
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
-		request.setAttribute("member", com.sociallibrary.domain.cm.current_member);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("member", CurrentMember.getMember());
         request.setAttribute("ownedbooks", myBooks);
         request.setAttribute("groups", myGroups);
 		request.setAttribute("borrowedbooks", myBorrowedBooks);

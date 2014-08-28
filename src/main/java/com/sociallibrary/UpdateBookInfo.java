@@ -27,11 +27,11 @@ public abstract class UpdateBookInfo {
 	public boolean checkOwnerOrBorrower(int memberBookId){
 		Statement st;
 		try {
-			st = DatabaseConnection.databaseInstance.conn.createStatement();
+			st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Select * from memberbooks where id="+memberBookId;
 			ResultSet bookInfo=st.executeQuery(sql);
 			bookInfo.first();
-			int id=CurrentMember.cm.current_member.id;
+			int id=CurrentMember.getMember().getId();
 			if(((bookInfo.getInt("owner_id")==id)||(bookInfo.getInt("borrower_id")==id))){
 				bookInfo.first();
 				this.bookInfo=bookInfo;

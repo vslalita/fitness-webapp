@@ -1,28 +1,32 @@
 package com.sociallibrary.service;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.sociallibrary.GetUserRelatedBooks;
 import com.sociallibrary.UpdateBookAvailability;
 import com.sociallibrary.UpdateBookBorrower;
 import com.sociallibrary.UpdateBookInfo;
-import com.sociallibrary.db.DBHelper;
+import com.sociallibrary.db.*;
 import com.sociallibrary.domain.Book;
 import com.sociallibrary.domain.CurrentMember;
 import com.sociallibrary.service.factory.GetBooksFactory;
 import com.sociallibrary.service.operations.OperationsFacade;
 
 public class BookServiceController {
-	//TODO make it private 
-	static BookServiceController bookServicecontroller=null;
+	private static BookServiceController bookServicecontroller=null;
 	private BookServiceController(){
+	}
+	
+	public static BookServiceController getInstance(){
+		if(bookServicecontroller==null){
+			bookServicecontroller=new BookServiceController();
+			return bookServicecontroller;
+		}
+		return bookServicecontroller;
 	}
 
 	public void addBook(Book book){
-		//TODO - Do we need to create a new instance of facade each time. How about make it a private variable and initialise it once in the constructor.
 		OperationsFacade of=new OperationsFacade();
 		of.operations("Add", null, book);
 		of.executeRequests();
@@ -54,13 +58,7 @@ public class BookServiceController {
 		return null;
 	}
 
-	public static BookServiceController getInstance(){
-		if(bookServicecontroller==null){
-			bookServicecontroller=new BookServiceController();
-			return bookServicecontroller;
-		}
-		return bookServicecontroller;
-	}
+	
 
 	public ResultSet getBooks(String bookType, int id){
 		GetBooksFactory bookFactory=new GetBooksFactory();
@@ -120,7 +118,7 @@ public class BookServiceController {
 				+ "and mg.member_id=m.id "
 				+ "and mb.owner_id=mg.member_id "
 				+ "and b.id=mb.book_id "
-				+ "and mb.owner_id !="+com.sociallibrary.domain.current_member.id;
+				+ "and mb.owner_id !="+CurrentMember.getMember().getId();
 		return DBHelper.getQueryResult(sql);
 	}
 

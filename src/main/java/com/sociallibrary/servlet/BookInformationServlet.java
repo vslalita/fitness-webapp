@@ -1,7 +1,6 @@
 package com.sociallibrary.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,12 +36,12 @@ public class BookInformationServlet extends HttpServlet {
 		int memberbookId=Integer.valueOf(request.getParameter("id"));
 		
         if(request.getParameter("operation")!=null&&(request.getParameter("operation").equals("setAvailibility"))){
-        	BookServiceController.bookServicecontroller.updateBook("availability", memberbookId);
+        	BookServiceController.getInstance().updateBook("availability", memberbookId);
 		}
         if(request.getParameter("operation")!=null&&(request.getParameter("operation").equals("setBorrower"))){
-        	BookServiceController.bookServicecontroller.updateBook("borrower", memberbookId);
+        	BookServiceController.getInstance().updateBook("borrower", memberbookId);
 		}
-        //TODO Why cant BookServiceController be used to fetch this information
+        
         BookInformation bookInfo=new BookInformation(memberbookId);
 		request.setAttribute("book", bookInfo.getBook());
 		request.setAttribute("owner", bookInfo.getBookOwner());
@@ -50,10 +49,10 @@ public class BookInformationServlet extends HttpServlet {
 		request.setAttribute("id",memberbookId);
 		request.setAttribute("requestors", bookInfo.getBookRequestors());
 		
-		request.setAttribute("name",com.sociallibrary.domain.current_member.firstName+" "+com.sociallibrary.domain.current_member.lastName);
-		request.setAttribute("address",com.sociallibrary.domain.current_member.address);
-		request.setAttribute("email",com.sociallibrary.domain.current_member.Email);
-		request.setAttribute("member", com.sociallibrary.domain.cm.current_member);
+		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
+		request.setAttribute("address",CurrentMember.getMember().getAddress());
+		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("member", CurrentMember.getMember());
 		getServletContext().getRequestDispatcher("/book_info.jsp").forward(request, response);
 		
 	}
