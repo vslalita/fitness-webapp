@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sociallibrary.domain.Book;
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.BookServiceController;
 import com.sociallibrary.service.operations.OperationsFacade;
 
@@ -47,9 +47,9 @@ public class AddDeleteOperationServlet extends HttpServlet {
 		requestedBooks=of.displayRequestedBooks().toArray(requestedBooks);
 		
 		request.setAttribute("deletedBooks", deletedBooks);
-		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-		request.setAttribute("address",CurrentMember.getMember().getAddress());
-		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+		request.setAttribute("address",CurrentSession.getMember().getAddress());
+		request.setAttribute("email",CurrentSession.getMember().getEmail());
 		request.setAttribute("requestedBooks", requestedBooks);
 		
 		getServletContext().getRequestDispatcher("/add_delete.jsp").forward(request, response);
@@ -69,9 +69,9 @@ public class AddDeleteOperationServlet extends HttpServlet {
 		Book newBook=new Book(name,category,rating,isbn);
 		BookServiceController.getInstance().addBook(newBook);
 		
-		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-		request.setAttribute("address",CurrentMember.getMember().getAddress());
-		request.setAttribute("email",CurrentMember.getMember().getEmail());
+		request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+		request.setAttribute("address",CurrentSession.getMember().getAddress());
+		request.setAttribute("email",CurrentSession.getMember().getEmail());
 		getServletContext().getRequestDispatcher("/add_delete.jsp").forward(request, response);
 	}
 

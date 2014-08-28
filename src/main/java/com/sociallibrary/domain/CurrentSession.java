@@ -1,17 +1,17 @@
 package com.sociallibrary.domain;
 
 
-public class CurrentMember {
+public class CurrentSession {
 
 	 private static  Member current_member;
-	 private static CurrentMember cm=null;
-	 private CurrentMember(Member member){
-		 CurrentMember.current_member=member;
+	 private static CurrentSession cm=null;
+	 private CurrentSession(Member member){
+		 CurrentSession.current_member=member;
 	 }
 	
-	 public static CurrentMember getMemberInstance(Member member){
+	 public static CurrentSession getMemberInstance(Member member){
 		 if(cm==null){
-			 cm=new CurrentMember(member);
+			 cm=new CurrentSession(member);
 			 return cm;
 		 }
 		 else{

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import com.sociallibrary.db.DBHelper;
 import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.domain.Book;
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.domain.Member;
 
 public class AddOperation implements BookOperationRequest {
@@ -28,7 +28,7 @@ public class AddOperation implements BookOperationRequest {
 			String sql="Select * from groups g, membergroups mg, members m "
 					+ "where g.id=mg.group_id "
 					+ "and mg.member_id=m.id "
-					+ "and mg.member_id="+CurrentMember.getMember().getId();
+					+ "and mg.member_id="+CurrentSession.getMember().getId();
 			ResultSet member=st.executeQuery(sql);
 			if(DBHelper.getCount(member)>0){
 				member.beforeFirst();

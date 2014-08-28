@@ -1,6 +1,6 @@
 package com.sociallibrary;
 
-public interface Observer {
+public interface IObserver {
  
 	public void notify(String bookname);
 }

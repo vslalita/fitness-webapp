@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.sociallibrary.domain.BookInformation;
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.BookServiceController;
 
 /**
@@ -49,10 +49,10 @@ public class BookInformationServlet extends HttpServlet {
 		request.setAttribute("id",memberbookId);
 		request.setAttribute("requestors", bookInfo.getBookRequestors());
 		
-		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-		request.setAttribute("address",CurrentMember.getMember().getAddress());
-		request.setAttribute("email",CurrentMember.getMember().getEmail());
-		request.setAttribute("member", CurrentMember.getMember());
+		request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+		request.setAttribute("address",CurrentSession.getMember().getAddress());
+		request.setAttribute("email",CurrentSession.getMember().getEmail());
+		request.setAttribute("member", CurrentSession.getMember());
 		getServletContext().getRequestDispatcher("/book_info.jsp").forward(request, response);
 		
 	}

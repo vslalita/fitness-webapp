@@ -7,7 +7,7 @@ import com.sociallibrary.*;
 import com.sociallibrary.db.DatabaseConnection;
 
 
-public class Member implements Observer {
+public class Member implements IObserver {
 	private String  firstName;
 	private String lastName;
 	private String username;
@@ -61,7 +61,7 @@ public class Member implements Observer {
 	public void notify(String bookname){
 		try {
 			Statement st = DatabaseConnection.connectionRequest().createStatement();
-			String sql="Insert into notifications (member_id,notification) values ("+this.id+", '"+bookname+"has been added by "+CurrentMember.getMember().firstName+"')";
+			String sql="Insert into notifications (member_id,notification) values ("+this.id+", '"+bookname+"has been added by "+CurrentSession.getMember().firstName+"')";
 		    st.executeUpdate(sql);
 		
 		} catch (SQLException e) {

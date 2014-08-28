@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 import com.sociallibrary.db.DBHelper;
 import com.sociallibrary.db.DatabaseConnection;
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.domain.Member;
 
 public class MemberServiceController {
@@ -85,7 +85,7 @@ public class MemberServiceController {
 							validateUserQry.getString("address"),
 							validateUserQry.getString("email"));
 					current_member.setId(validateUserQry.getInt("id"));
-					CurrentMember.getMemberInstance(current_member);
+					CurrentSession.getMemberInstance(current_member);
 					return true;
 				}
 			} catch (SQLException e) {
@@ -113,7 +113,7 @@ public class MemberServiceController {
 			if(DBHelper.getCount(validateGroup)==0){
 				String sql="Insert into groups(groupname) values ('"+groupname+"')";
 				st.executeUpdate(sql);
-				joinGroup(groupname,CurrentMember.getMember().getId());
+				joinGroup(groupname,CurrentSession.getMember().getId());
 			}	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

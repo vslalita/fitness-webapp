@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.MemberServiceController;
 
 /**
@@ -31,14 +31,14 @@ public class GroupServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
-		int id=CurrentMember.getMember().getId();
+		int id=CurrentSession.getMember().getId();
 		ResultSet groupInfo=MemberServiceController.getInstance().getGroupInformation(id);
 		
 		request.setAttribute("groupinfo", groupInfo);
-		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-		request.setAttribute("address",CurrentMember.getMember().getAddress());
-		request.setAttribute("email",CurrentMember.getMember().getEmail());
-		request.setAttribute("member", CurrentMember.getMember());
+		request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+		request.setAttribute("address",CurrentSession.getMember().getAddress());
+		request.setAttribute("email",CurrentSession.getMember().getEmail());
+		request.setAttribute("member", CurrentSession.getMember());
 		
 		getServletContext().getRequestDispatcher("/groups.jsp").forward(request, response);
 		

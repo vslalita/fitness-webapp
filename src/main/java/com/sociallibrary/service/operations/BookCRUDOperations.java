@@ -8,7 +8,7 @@ import java.util.Calendar;
 import com.sociallibrary.db.DBHelper;
 import com.sociallibrary.db.DatabaseConnection;
 import com.sociallibrary.domain.Book;
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 
 public class BookCRUDOperations {
  	
@@ -34,11 +34,11 @@ public class BookCRUDOperations {
 				ResultSet checkExistingBook=st.executeQuery("Select * "
 						                                 + "from memberbooks "
 						                                 + "where book_id="+newBookId.getInt("id")+" "
-						                                  + "and owner_id="+CurrentMember.getMember().getId());
+						                                  + "and owner_id="+CurrentSession.getMember().getId());
 				if(DBHelper.getCount(checkExistingBook)==0){
 					st.executeUpdate("insert into "
 							+ "memberbooks (book_id, owner_id,borrower_id, memberrating, last_updated_at ) "
-							+ "values ('"+newBookId.getInt("id")+"',"+CurrentMember.getMember().getId()+",null,"+book.getBookRating()+",'"+currentDate+"')");
+							+ "values ('"+newBookId.getInt("id")+"',"+CurrentSession.getMember().getId()+",null,"+book.getBookRating()+",'"+currentDate+"')");
 				}
 			}
 			else{
@@ -49,7 +49,7 @@ public class BookCRUDOperations {
 					ResultSet newBookId=st.executeQuery("Select * from books where ISBN='"+book.getBookISBN()+"'");
 					newBookId.next();
 					st.executeUpdate("insert into memberbooks (book_id, owner_id,borrower_id, memberrating, last_updated_at ) "
-							+ "values ('"+newBookId.getInt("id")+"',"+CurrentMember.getMember().getId()+","+CurrentMember.getMember().getId()+","+book.getBookRating()+",'"+currentDate+"')");
+							+ "values ('"+newBookId.getInt("id")+"',"+CurrentSession.getMember().getId()+","+CurrentSession.getMember().getId()+","+book.getBookRating()+",'"+currentDate+"')");
 				}
 			}
 		} catch (SQLException e) {
@@ -92,7 +92,7 @@ public class BookCRUDOperations {
 			st = DatabaseConnection.connectionRequest().createStatement();
 			String sql="Delete from memberbooks "
 					 + "where book_id in (Select id from books where ISBN="+book.getBookISBN()+" "
-					 		+ "and owner_id="+CurrentMember.getMember().getId()+")";
+					 		+ "and owner_id="+CurrentSession.getMember().getId()+")";
 			st.executeUpdate(sql);
 			return true;
 		} catch (SQLException e) {
@@ -121,7 +121,7 @@ public class BookCRUDOperations {
 			
 			ResultSet bookInfo=st.executeQuery(sql);
 			bookInfo.first();
-			int id=CurrentMember.getMember().getId();
+			int id=CurrentSession.getMember().getId();
 			if(((bookInfo.getInt("borrower_id")==id))){
 				return false;
 			}

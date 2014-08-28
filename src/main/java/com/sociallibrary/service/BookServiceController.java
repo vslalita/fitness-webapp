@@ -9,7 +9,7 @@ import com.sociallibrary.UpdateBookBorrower;
 import com.sociallibrary.UpdateBookInfo;
 import com.sociallibrary.db.*;
 import com.sociallibrary.domain.Book;
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.factory.GetBooksFactory;
 import com.sociallibrary.service.operations.OperationsFacade;
 
@@ -118,7 +118,7 @@ public class BookServiceController {
 				+ "and mg.member_id=m.id "
 				+ "and mb.owner_id=mg.member_id "
 				+ "and b.id=mb.book_id "
-				+ "and mb.owner_id !="+CurrentMember.getMember().getId();
+				+ "and mb.owner_id !="+CurrentSession.getMember().getId();
 		return DBHelper.getQueryResult(sql);
 	}
 

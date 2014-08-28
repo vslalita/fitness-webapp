@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.BookServiceController;
 import com.sociallibrary.service.MemberServiceController;
 
@@ -44,10 +44,10 @@ public class MemberInfoServlet extends HttpServlet {
         request.setAttribute("requestedbooks", memberRequestedBooks);
         request.setAttribute("memberinfo", memberInfo);
         
-        request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-		request.setAttribute("address",CurrentMember.getMember().getAddress());
-		request.setAttribute("email",CurrentMember.getMember().getEmail());
-		request.setAttribute("member", CurrentMember.getMember());
+        request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+		request.setAttribute("address",CurrentSession.getMember().getAddress());
+		request.setAttribute("email",CurrentSession.getMember().getEmail());
+		request.setAttribute("member", CurrentSession.getMember());
 		
 		getServletContext().getRequestDispatcher("/member_info.jsp").forward(request, response);
 		

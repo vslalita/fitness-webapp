@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.MemberServiceController;
 
 /**
@@ -35,12 +35,12 @@ public class MemberGroupServlet extends HttpServlet {
 //		MemberOperations mo1=new MemberOperations();
 //		BookCRUDOperations bo1=new BookCRUDOperations();
 //		//ResultSet myBooks=bo1.getMyBooks();
-		ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
+		ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentSession.getMember().getId());
 
-		request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-		request.setAttribute("address",CurrentMember.getMember().getAddress());
-		request.setAttribute("email",CurrentMember.getMember().getEmail());
-		request.setAttribute("member", CurrentMember.getMember());
+		request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+		request.setAttribute("address",CurrentSession.getMember().getAddress());
+		request.setAttribute("email",CurrentSession.getMember().getEmail());
+		request.setAttribute("member", CurrentSession.getMember());
 		request.setAttribute("groups", myGroups);
 		getServletContext().getRequestDispatcher("/groups.jsp").forward(request, response);
 	}

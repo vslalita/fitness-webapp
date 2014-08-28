@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sociallibrary.domain.CurrentMember;
+import com.sociallibrary.domain.CurrentSession;
 import com.sociallibrary.service.BookServiceController;
 import com.sociallibrary.service.MemberServiceController;
 
@@ -42,16 +42,16 @@ public class MainPage extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(MemberServiceController.getInstance().login(request.getParameter("username"),request.getParameter("password"))){
-			request.setAttribute("name",CurrentMember.getMember().getFirstName()+" "+CurrentMember.getMember().getLastName());
-			request.setAttribute("address",CurrentMember.getMember().getAddress());
-			request.setAttribute("email",CurrentMember.getMember().getEmail());
-			request.setAttribute("member", CurrentMember.getMember());
+			request.setAttribute("name",CurrentSession.getMember().getFirstName()+" "+CurrentSession.getMember().getLastName());
+			request.setAttribute("address",CurrentSession.getMember().getAddress());
+			request.setAttribute("email",CurrentSession.getMember().getEmail());
+			request.setAttribute("member", CurrentSession.getMember());
 			
-			int id=CurrentMember.getMember().getId();
+			int id=CurrentSession.getMember().getId();
 			ResultSet myBooks=BookServiceController.getInstance().getBooks("OwnedBooks",id);
 			ResultSet myBorrowedBooks=BookServiceController.getInstance().getBooks("BorrowedBooks",id);
 			ResultSet myRequestedBooks=BookServiceController.getInstance().getBooks("RequestedBooks",id);
-			ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentMember.getMember().getId());
+			ResultSet myGroups=MemberServiceController.getInstance().getgroups(CurrentSession.getMember().getId());
 			
 			
             request.setAttribute("ownedbooks", myBooks);
